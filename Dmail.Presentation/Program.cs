@@ -1,2 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using Dmail.Presentation.Actions;
+using Dmail.Presentation.Factories;
+
+var menu= MainMenuFactory.CreateActions();
+menu.PrintActionsAndOpen();

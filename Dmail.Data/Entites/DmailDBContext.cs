@@ -42,11 +42,6 @@ namespace Dmail.Data.Context
                 HasDefaultValueSql("timezone('utc', now())");
 
             builder.Entity<Mail>().
-                Property(m => m.Hide).
-                IsRequired().
-                HasDefaultValue(false);
-
-            builder.Entity<Mail>().
                 Property(m => m.Format).
                 IsRequired();
 
