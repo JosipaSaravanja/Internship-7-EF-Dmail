@@ -7,6 +7,7 @@ using Dmail.Data.Enums;
 using Dmail.Domain.Repositories;
 using Dmail.Presentation.Actions.Inbox;
 using Dmail.Presentation.Actions.Spam;
+using Dmail.Presentation.Actions.Settings;
 
 namespace Dmail.Presentation.Factories
 {
@@ -17,21 +18,20 @@ namespace Dmail.Presentation.Factories
             var actions = new List<IAction>
                 {
                 new ExitAction(),
-                new ListSpamMailsAction(
+                new ListAllSpamAdresses(
                     RepositoryFactory.Create<MailRepository>(),
-                    RepositoryFactory.Create<SpammersRepository>(),
-                    MailStatus.Read,
-                    LogInAction.GetCurrentlyAuthenticatedUser()!),
-                new ListSpamMailsAction(
+                    LogInAction.GetCurrentlyAuthenticatedUser()!,
+                    RepositoryFactory.Create<SpammersRepository>()),
+
+                new ListAllNonSpamAdresses(
                     RepositoryFactory.Create<MailRepository>(),
-                    RepositoryFactory.Create<SpammersRepository>(),
-                    MailStatus.Unread,
-                    LogInAction.GetCurrentlyAuthenticatedUser()!),
-                new SearchSpamMail(
+                    LogInAction.GetCurrentlyAuthenticatedUser()!,
+                    RepositoryFactory.Create<SpammersRepository>()),
+
+                new ListAllAdreses(
                     RepositoryFactory.Create<MailRepository>(),
-                    RepositoryFactory.Create<SpammersRepository>(),
-                    RepositoryFactory.Create<UserRepository>(),
-                    LogInAction.GetCurrentlyAuthenticatedUser()!),
+                    LogInAction.GetCurrentlyAuthenticatedUser()!,
+                    RepositoryFactory.Create<SpammersRepository>()),
                 };
 
             actions.SetActionIndexes();

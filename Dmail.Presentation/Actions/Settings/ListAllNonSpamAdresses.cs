@@ -34,16 +34,25 @@ namespace Dmail.Presentation.Actions.Settings
 
         public void Open()
         {
-
-            IList<Mail> allMails = _mailRepository
+            IList<Mail> allMailsA = _mailRepository
                 .GetWhereReciever(_authenticatedUser.Id)
+                .ToList(); 
+            
+            IList<Mail> allMailsB = _mailRepository
+                .GetWhereSender(_authenticatedUser.Id)
                 .ToList();
 
             IList<Spammers> spammers = _spammersRepository
                 .GetSpamFlagsForUser(_authenticatedUser.Id)
                 .ToList();
 
-            IList<Mail> spammedMails = allMails
+            IList<Mail> spammedMailsA = allMailsA
+                .Where(m => !spammers
+                .Select(sf => sf.SpammerId)
+                .Contains(m.SenderId))
+                .ToList();
+
+            IList<Mail> spammedMailsB = allMailsB
                 .Where(m => !spammers
                 .Select(sf => sf.SpammerId)
                 .Contains(m.SenderId))
@@ -51,7 +60,11 @@ namespace Dmail.Presentation.Actions.Settings
 
             var index = 0;
             List<User> lista = new List<User>();
-            foreach (var el in spammedMails)
+            foreach (var el in spammedMailsA)
+            {
+                lista.Add(el.Sender);
+            }
+            foreach (var el in spammedMailsB)
             {
                 lista.Add(el.Sender);
             }
