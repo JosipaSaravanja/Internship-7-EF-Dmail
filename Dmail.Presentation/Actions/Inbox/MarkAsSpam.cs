@@ -11,22 +11,22 @@ using Dmail.Domain.Repositories;
 
 namespace Dmail.Presentation.Actions.Inbox
 {
-    public class MarkAsUnreadActtion : IAction
+    public class MarkAsSpam : IAction
     {
         public int Index { get; set; }
         public string Name { get; set; } = "Označi kao nepročitano";
 
-        private readonly MailRepository _mailRepository;
-        private Mail _selected;
+        private readonly SpammersRepository _spammersRepository;
+        private readonly Mail _selected;
         private readonly User _authenticatedUser;
 
-        public MarkAsUnreadActtion(
-            MailRepository mailRepository,
-            Mail selectedMail,
+        public MarkAsSpam(
+            SpammersRepository spammersRepository,
+            Mail mail,
             User authenticatedUser)
         {
-            _mailRepository = mailRepository;
-            _selected = selectedMail;
+            _spammersRepository = spammersRepository;
+            _selected = mail;
             _authenticatedUser = authenticatedUser;
         }
 
@@ -34,10 +34,9 @@ namespace Dmail.Presentation.Actions.Inbox
         {
             Console.Clear();
 
-            ResponseResultType response = _mailRepository.UpdateMailStatus(
-                _selected.Id,
+            ResponseResultType response = _spammersRepository.MarkAsSpam(
                 _authenticatedUser.Id,
-                Data.Enums.MailStatus.Unread);
+                _selected.SenderId);
 
             Console.WriteLine(response);
         }

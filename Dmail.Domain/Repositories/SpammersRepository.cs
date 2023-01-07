@@ -18,10 +18,10 @@ namespace Dmail.Domain.Repositories
             return GetAll().Any(sf => sf.UserId == userId && sf.SpammerId == userToFlag);
         }
 
-        public ResponseResultType MarkAsSpam(int userId, int userToFlag)
+        public ResponseResultType MarkAsSpam(int userId, int SpammerId)
         {
 
-            if (SpamFlagExists(userId, userToFlag))
+            if (SpamFlagExists(userId, SpammerId))
             {
                 return ResponseResultType.NoChanges;
             }
@@ -29,7 +29,7 @@ namespace Dmail.Domain.Repositories
             context.Spammers.Add(new Spammers()
             {
                 UserId = userId,
-                SpammerId = userToFlag,
+                SpammerId = SpammerId,
             });
 
             return base.SaveChanges();

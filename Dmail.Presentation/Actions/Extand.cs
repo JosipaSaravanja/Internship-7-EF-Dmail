@@ -10,7 +10,7 @@ using Dmail.Domain.Enums;
 using Dmail.Domain.Factories;
 using Dmail.Presentation.Actions;
 using Dmail.Presentation.Factories;
-using Internship_7_EF_Dmail.Domain.Repositories;
+using Dmail.Domain.Repositories;
 
 namespace Dmail.Presentation.Actions
 {

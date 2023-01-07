@@ -9,7 +9,7 @@ using Dmail.Domain.Repositories;
 using Dmail.Presentation.Actions;
 using Dmail.Domain.Repositories;
 using Dmail.Domain.Repositories;
-using Internship_7_EF_Dmail.Domain.Repositories;
+using Dmail.Domain.Repositories;
 using Dmail.Presentation.Factories;
 
 namespace Dmail.Presentation.Actions

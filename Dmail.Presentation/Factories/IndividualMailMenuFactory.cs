@@ -3,7 +3,7 @@ using Dmail.Domain.Repositories;
 using Dmail.Presentation.Actions.Main;
 using Dmail.Presentation.Actions;
 using System;
-using Internship_7_EF_Dmail.Domain.Repositories;
+using Dmail.Domain.Repositories;
 using Dmail.Presentation.Actions.Inbox;
 using Dmail.Data.Entitets.Models;
 
@@ -21,8 +21,15 @@ namespace Dmail.Presentation.Factories
                     RepositoryFactory.Create<MailRepository>(),
                     selected,
                     LogInAction.GetCurrentlyAuthenticatedUser()!),
+                new MarkAsSpam(
+                    RepositoryFactory.Create<SpammersRepository>(),
+                    selected,
+                    LogInAction.GetCurrentlyAuthenticatedUser()!),
+                new DeleteMailAction(
+                    RepositoryFactory.Create<MailRepository>(),
+                    selected,
+                    LogInAction.GetCurrentlyAuthenticatedUser()!),
                 /*dalje izbornik:
-            1.	Označi kao nepročitano
             2.Označi kao spam(kasnije u tekstu objašnjeno)
             3.Izbriši mail
             4.Odgovori na mail(ponaša se kao i pošalji novu poštu) ili u slučaju događaja 

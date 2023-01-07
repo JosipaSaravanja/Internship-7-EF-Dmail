@@ -6,7 +6,7 @@ using Dmail.Data.Enums;
 using Dmail.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
-namespace Internship_7_EF_Dmail.Domain.Repositories
+namespace Dmail.Domain.Repositories
 {
     public class MailRepository : BaseRepository
     {

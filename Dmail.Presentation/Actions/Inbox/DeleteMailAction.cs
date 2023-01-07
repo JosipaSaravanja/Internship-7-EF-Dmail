@@ -11,22 +11,22 @@ using Dmail.Domain.Repositories;
 
 namespace Dmail.Presentation.Actions.Inbox
 {
-    public class MarkAsUnreadActtion : IAction
+    public class DeleteMailAction : IAction
     {
         public int Index { get; set; }
         public string Name { get; set; } = "Označi kao nepročitano";
 
         private readonly MailRepository _mailRepository;
-        private Mail _selected;
+        private readonly Mail _selected;
         private readonly User _authenticatedUser;
 
-        public MarkAsUnreadActtion(
+        public DeleteMailAction(
             MailRepository mailRepository,
-            Mail selectedMail,
+            Mail selected,
             User authenticatedUser)
         {
             _mailRepository = mailRepository;
-            _selected = selectedMail;
+            _selected = selected;
             _authenticatedUser = authenticatedUser;
         }
 
@@ -34,10 +34,18 @@ namespace Dmail.Presentation.Actions.Inbox
         {
             Console.Clear();
 
-            ResponseResultType response = _mailRepository.UpdateMailStatus(
-                _selected.Id,
-                _authenticatedUser.Id,
-                Data.Enums.MailStatus.Unread);
+            if (_selected.Format == Data.Enums.Format.Event)
+                Console.WriteLine("Brisanje ovod eventa će vas ukloniti s liste pozvanika.");
+            Console.WriteLine("Jeste li sigurni da želite izvršiti ovu radnju (DA/NE)?");
+            var choice = Console.ReadLine();
+            if (choice!="DA")
+            {
+                Console.WriteLine("Radnja je obustavljena");
+                return;
+            }
+
+            ResponseResultType response = _mailRepository.RemoveFromInbox(_selected.Id,
+                _authenticatedUser.Id);
 
             Console.WriteLine(response);
         }
