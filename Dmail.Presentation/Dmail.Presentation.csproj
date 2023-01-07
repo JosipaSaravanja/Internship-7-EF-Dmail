@@ -15,7 +15,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-    <ProjectReference Include="..\Dmail.Domain\Dmail.Domain.csproj" />
-  </ItemGroup>
+		<ProjectReference Include="..\Dmail.Domain\Dmail.Domain.csproj" />
+	</ItemGroup>
 
 </Project>

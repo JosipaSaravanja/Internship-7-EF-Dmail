@@ -10,7 +10,7 @@ namespace Dmail.Presentation.Actions
     public class ExitAction : IAction
     {
         public int Index { get; set; }
-        public virtual string Name { get; set; } = "Izlaz";
+        public string Name { get; set; } = "Izlaz";
 
         public ExitAction()
         {
