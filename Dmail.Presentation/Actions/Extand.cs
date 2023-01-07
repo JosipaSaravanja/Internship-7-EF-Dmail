@@ -6,13 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Dmail.Data.Entitets.Models;
 using Dmail.Data.Enums;
+using Dmail.Domain.Enums;
+using Dmail.Domain.Factories;
 using Dmail.Presentation.Actions;
+using Dmail.Presentation.Factories;
+using Internship_7_EF_Dmail.Domain.Repositories;
 
 namespace Dmail.Presentation.Actions
 {
     public static class Extand
     {
 
+        
         public static void PrintActionsAndOpen(this IList<IAction> actions)
         {
             const string INVALID_ACTION_MSG = "Odaberite posojeću akciju!";
@@ -52,20 +57,23 @@ namespace Dmail.Presentation.Actions
 
             Console.WriteLine("Unesite rb maila");
             bool suc = int.TryParse(Console.ReadLine(), out int choice);
-            if (suc == false || choice >= final.Count())
+            if (suc == false || choice >= final.Count() || choice<0)
             {
                 Console.WriteLine("Netočan unos");
                 return;
             }
 
-            var Mail = final[choice - 1];
+            Mail Mail = final[choice-1];
             if (Mail.Format == Format.Email)
             {
                 Console.WriteLine($"Title: {Mail.Title}");
                 Console.WriteLine($"Datum i vrijeme: {Mail.TimeOfCreation}");
                 Console.WriteLine($"Posiljatelj: {Mail.Sender.Email}");
                 Console.WriteLine($"Content: {Mail.Contents}");
-
+                ResponseResultType response = RepositoryFactory.Create<MailRepository>().UpdateMailStatus(
+               Mail.Id,
+               _authenticatedUser.Id,
+               Data.Enums.MailStatus.Unread);
             }
             else if (Mail.Format == Format.Event)
             {
@@ -79,15 +87,8 @@ namespace Dmail.Presentation.Actions
                 }
                 Console.WriteLine($"prihvaćen/odbijen poziv n a događaj: {Mail.Recipients.FirstOrDefault(u => u.UserId == _authenticatedUser.Id).EventStatus}");
             }
-            /*dalje izbornik:
-            1.	Označi kao nepročitano
-            2.Označi kao spam(kasnije u tekstu objašnjeno)
-            3.Izbriši mail
-            4.Odgovori na mail(ponaša se kao i pošalji novu poštu) ili u slučaju događaja 
-            opcije da se potvrdi ili odbije dolazak na događaj(prilikom čega se automatski 
-            šalje pošiljatelju generična obična pošta o tome što je odabrano sa naznakom da 
-            kao pošiljatelj te pošte stoji korisnik koji je prihvatio ili odbio događaj)
-            */
+            IndividualMailMenuFactory.CreateActions(Mail);
+            
 
         }
         private static void PrintActions(IList<IAction> actions)

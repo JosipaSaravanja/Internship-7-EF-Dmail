@@ -1,0 +1,45 @@
+﻿using Dmail.Domain.Factories;
+using Dmail.Domain.Repositories;
+using Dmail.Presentation.Actions.Main;
+using Dmail.Presentation.Actions;
+using System;
+using Internship_7_EF_Dmail.Domain.Repositories;
+using Dmail.Presentation.Actions.Inbox;
+using Dmail.Data.Entitets.Models;
+
+namespace Dmail.Presentation.Factories
+{
+    public class IndividualMailMenuFactory
+    {
+
+        public static IList<IAction> CreateActions(Mail selected)
+        {
+            var actions = new List<IAction>
+                {
+                new ExitAction(),
+                new MarkAsUnreadActtion(
+                    RepositoryFactory.Create<MailRepository>(),
+                    selected,
+                    LogInAction.GetCurrentlyAuthenticatedUser()!),
+                /*dalje izbornik:
+            1.	Označi kao nepročitano
+            2.Označi kao spam(kasnije u tekstu objašnjeno)
+            3.Izbriši mail
+            4.Odgovori na mail(ponaša se kao i pošalji novu poštu) ili u slučaju događaja 
+            opcije da se potvrdi ili odbije dolazak na događaj(prilikom čega se automatski 
+            šalje pošiljatelju generična obična pošta o tome što je odabrano sa naznakom da 
+            kao pošiljatelj te pošte stoji korisnik koji je prihvatio ili odbio događaj)
+            */
+                new LogInAction(RepositoryFactory.Create<UserRepository>()),
+                new RegisterAction(RepositoryFactory.Create<UserRepository>()),
+                };
+
+            actions.SetActionIndexes();
+
+            return actions;
+
+
+
+        }
+    }
+}

@@ -82,10 +82,6 @@ namespace Internship_7_EF_Dmail.Domain.Repositories
             return SaveChanges();
         }
 
-        public ResponseResultType Update(Mail m)
-        {
-            throw new NotSupportedException("Use specific update method (UpdateMailStatus...).");
-        }
 
         public ResponseResultType UpdateMailStatus(int mailId, int userId, MailStatus status)
         {
