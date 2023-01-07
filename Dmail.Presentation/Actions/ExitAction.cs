@@ -12,10 +12,6 @@ namespace Dmail.Presentation.Actions
         public int Index { get; set; }
         public string Name { get; set; } = "Izlaz";
 
-        public ExitAction()
-        {
-        }
-
         public void Open()
         {
         }

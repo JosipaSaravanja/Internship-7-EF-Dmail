@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dmail.Data.Entitets.Models;
 using Dmail.Presentation.Actions;
 
 namespace Dmail.Presentation.Actions
@@ -59,7 +60,51 @@ namespace Dmail.Presentation.Actions
             Console.Clear();
         }
 
+        public static void WriteListOfMails(IList<Mail> mails)
+        {
+            Console.WriteLine(" Rb. | Naslov                                            | Pošiljatelj");
+            if (!mails.Any())
+                return;
+            int rb = 0;
+            foreach(var mail in mails)
+            {
+                Console.WriteLine($"[{++rb}] [{mail.Title}] [{mail.Sender.Email}]");
+            }
 
+        }
+
+        public static IList<Mail> FilterByFormat(ICollection<Mail> input)
+        {
+            Console.Clear();
+            Console.WriteLine("Želite li ih usput i filtrirasti po eventovima i mailovima? (DA/NE)");
+            var ch = Console.ReadLine();
+            if (ch!="DA")
+            {
+                Console.Clear();
+                return input.ToList();
+            }
+            var loop = true;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("1 - Mailovi");
+                Console.WriteLine("2 - Eventovi");
+                ch = Console.ReadLine();
+                switch (ch)
+                {
+                    case "1":
+                        loop = false;
+                        break;
+                    case "2":
+                        loop = false;
+                        break;
+                    default:
+                        Console.WriteLine("Netočan unos");
+                        break;
+                }
+            } while (loop == true);
+            return input.ToList();
+        }
         public static void SetActionIndexes(this IList<IAction> actions)
         {
             var index = -1;

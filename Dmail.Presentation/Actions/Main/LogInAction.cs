@@ -7,7 +7,6 @@ using Dmail.Data.Entitets.Models;
 using Dmail.Domain.Enums;
 using Dmail.Domain.Repositories;
 using Dmail.Presentation.Actions;
-using Dmail.Domain.Repositories;
 using Dmail.Presentation.Factories;
 using Dmail.Domain.Repositories;
 
@@ -85,13 +84,13 @@ namespace Dmail.Presentation.Actions.Main
             }
 
             Console.WriteLine($"Authenticated as {email.ToLower()}.");
-            LogInAction.SetAuthenticatedUser(_userRepository.GetByEmail(email)!);
+            SetAuthenticatedUser(_userRepository.GetByEmail(email)!);
             Console.ReadLine();
 
             Console.Clear();
-            /*RegistredMenuFactory
+            RegistredMenuFactory
                 .CreateActions()
-                .PrintActionsAndOpen();*/
+                .PrintActionsAndOpen();
         }
     }
 }

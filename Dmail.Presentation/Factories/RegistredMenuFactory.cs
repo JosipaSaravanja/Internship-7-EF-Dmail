@@ -1,8 +1,11 @@
 ﻿using System;
 using Dmail.Presentation.Actions;
 using Dmail.Presentation.Actions.Main;
+using Dmail.Presentation.Actions;
 using Dmail.Domain.Repositories;
 using Dmail.Domain.Factories;
+using Dmail.Data.Enums;
+using Internship_7_EF_Dmail.Domain.Repositories;
 
 namespace Dmail.Presentation.Factories
 {
@@ -13,8 +16,16 @@ namespace Dmail.Presentation.Factories
                 var actions = new List<IAction>
                 {
                 new ExitAction(),
-                //Ulazna pošta
-                //izlazna pošta
+                new ListMailsAction(
+                    RepositoryFactory.Create<MailRepository>(),
+                    RepositoryFactory.Create<SpammersRepository>(),
+                    MailStatus.Read,
+                    LogInAction.GetCurrentlyAuthenticatedUser()!),
+                new ListMailsAction(
+                    RepositoryFactory.Create<MailRepository>(),
+                    RepositoryFactory.Create<SpammersRepository>(),
+                    MailStatus.Unread,
+                    LogInAction.GetCurrentlyAuthenticatedUser()!),
                 //spam
                 //pošalji movi mail
                 //pošalji movi event
