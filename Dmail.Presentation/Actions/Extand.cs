@@ -184,5 +184,23 @@ namespace Dmail.Presentation.Actions
             Console.WriteLine($"Content: {Mail.Contents}");
             IndividualMailMenuFactory.CreateActions(Mail);
         }
+
+        public static IList<string>? ReadRecipients()
+        {
+            Console.WriteLine("Unesite primatelje");
+            string userInput = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(userInput))
+            {
+                return null;
+            }
+
+            IList<string> userInputSplit = userInput.Split(',').ToList();
+
+            for (int i = 0; i < userInputSplit.Count; i++)
+                userInputSplit[i] = userInputSplit[i].ToLower().Trim();
+
+            return userInputSplit;
+        }
     }
 }
