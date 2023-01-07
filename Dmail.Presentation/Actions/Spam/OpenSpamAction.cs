@@ -17,10 +17,8 @@ namespace Dmail.Presentation.Actions.Spam
 {
     public class OpenSpamAction : IAction
     {
-
         public int Index { get; set; }
         public string Name { get; set; } = "Spam";
-
 
         public void Open()
         {

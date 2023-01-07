@@ -36,21 +36,6 @@ namespace Dmail.Presentation.Actions.Inbox
 
         public void Open()
         {
-            /*IList<Mail> allMails = _mailRepository
-                .GetWhereRecieverAndStatus(
-                _authenticatedUser.Id,
-                _mailStatus)
-                .ToList();
-
-            IList<Spammers> spammers = _spammersRepository
-                .GetSpamFlagsForUser(_authenticatedUser.Id)
-                .ToList();
-
-            IList<Mail> noSpammedMails = allMails
-                .Where(m => !spammers
-                .Select(sf => sf.SpammerId)
-                .Contains(m.SenderId))
-                .ToList();*/
             Console.WriteLine("Unesite ime/dio imena");
             string query = Console.ReadLine();
 

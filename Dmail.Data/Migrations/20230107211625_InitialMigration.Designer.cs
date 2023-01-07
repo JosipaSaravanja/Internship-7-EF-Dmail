@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Dmail.Data.Migrations
 {
     [DbContext(typeof(DmailDBContext))]
-    [Migration("20230107161414_druga")]
-    partial class druga
+    [Migration("20230107211625_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,6 +37,11 @@ namespace Dmail.Data.Migrations
 
                     b.Property<int>("Format")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("IsHidden")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
 
                     b.Property<TimeSpan?>("LastingOfEvent")
                         .HasColumnType("interval");
@@ -68,18 +73,20 @@ namespace Dmail.Data.Migrations
                             Id = 1,
                             Contents = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
                             Format = 0,
+                            IsHidden = false,
                             SenderId = 1,
-                            TimeOfCreation = new DateTime(2023, 1, 7, 16, 14, 14, 419, DateTimeKind.Utc).AddTicks(1130),
+                            TimeOfCreation = new DateTime(2023, 1, 7, 21, 16, 25, 325, DateTimeKind.Utc).AddTicks(417),
                             Title = "prviMail"
                         },
                         new
                         {
                             Id = 2,
                             Format = 1,
+                            IsHidden = false,
                             LastingOfEvent = new TimeSpan(0, 0, 1, 0, 0),
                             SenderId = 2,
-                            StartOfEvent = new DateTime(2023, 1, 7, 16, 15, 14, 419, DateTimeKind.Utc).AddTicks(1134),
-                            TimeOfCreation = new DateTime(2023, 1, 7, 16, 14, 14, 419, DateTimeKind.Utc).AddTicks(1133),
+                            StartOfEvent = new DateTime(2023, 1, 7, 21, 17, 25, 325, DateTimeKind.Utc).AddTicks(423),
+                            TimeOfCreation = new DateTime(2023, 1, 7, 21, 16, 25, 325, DateTimeKind.Utc).AddTicks(422),
                             Title = "drugi mail"
                         });
                 });

@@ -34,6 +34,7 @@ namespace Dmail.Data.Migrations
                     Title = table.Column<string>(type: "text", nullable: false),
                     TimeOfCreation = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "timezone('utc', now())"),
                     Format = table.Column<int>(type: "integer", nullable: false),
+                    IsHidden = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     Contents = table.Column<string>(type: "text", nullable: true),
                     StartOfEvent = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     LastingOfEvent = table.Column<TimeSpan>(type: "interval", nullable: true),
@@ -115,8 +116,8 @@ namespace Dmail.Data.Migrations
                 columns: new[] { "Id", "Contents", "Format", "LastingOfEvent", "SenderId", "StartOfEvent", "TimeOfCreation", "Title" },
                 values: new object[,]
                 {
-                    { 1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum", 0, null, 1, null, new DateTime(2023, 1, 7, 16, 1, 41, 338, DateTimeKind.Utc).AddTicks(1934), "prviMail" },
-                    { 2, null, 1, new TimeSpan(0, 0, 1, 0, 0), 2, new DateTime(2023, 1, 7, 16, 2, 41, 338, DateTimeKind.Utc).AddTicks(1937), new DateTime(2023, 1, 7, 16, 1, 41, 338, DateTimeKind.Utc).AddTicks(1937), "drugi mail" }
+                    { 1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum", 0, null, 1, null, new DateTime(2023, 1, 7, 21, 16, 25, 325, DateTimeKind.Utc).AddTicks(417), "prviMail" },
+                    { 2, null, 1, new TimeSpan(0, 0, 1, 0, 0), 2, new DateTime(2023, 1, 7, 21, 17, 25, 325, DateTimeKind.Utc).AddTicks(423), new DateTime(2023, 1, 7, 21, 16, 25, 325, DateTimeKind.Utc).AddTicks(422), "drugi mail" }
                 });
 
             migrationBuilder.InsertData(
