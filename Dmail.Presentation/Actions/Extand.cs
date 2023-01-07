@@ -16,8 +16,6 @@ namespace Dmail.Presentation.Actions
 {
     public static class Extand
     {
-
-        
         public static void PrintActionsAndOpen(this IList<IAction> actions)
         {
             const string INVALID_ACTION_MSG = "Odaberite posojeću akciju!";
@@ -51,7 +49,6 @@ namespace Dmail.Presentation.Actions
 
             } while (loop != true);
         }
-
         public static void SelectMailByIndex(IList<Mail> final, User _authenticatedUser)
         {
 
@@ -87,9 +84,18 @@ namespace Dmail.Presentation.Actions
                 }
                 Console.WriteLine($"prihvaćen/odbijen poziv n a događaj: {Mail.Recipients.FirstOrDefault(u => u.UserId == _authenticatedUser.Id).EventStatus}");
             }
-            IndividualMailMenuFactory.CreateActions(Mail);
-            
-
+            if (_authenticatedUser != Mail.Sender)
+            {
+                IndividualOutboxMailMenuFactory
+                .CreateActions(Mail)
+                .PrintActionsAndOpen();
+            }
+            else
+            {
+                IndividualMailMenuFactory
+                    .CreateActions(Mail)
+                    .PrintActionsAndOpen();
+            }
         }
         private static void PrintActions(IList<IAction> actions)
         {
@@ -98,14 +104,12 @@ namespace Dmail.Presentation.Actions
                 Console.WriteLine($"{action.Index}. {action.Name}");
             }
         }
-        
         private static void PrintErrorMessage(string message)
         {
             Console.WriteLine(message);
             Console.ReadLine();
             Console.Clear();
         }
-
         public static void WriteListOfMails(IList<Mail> mails)
         {
             Console.WriteLine(" Rb. | Naslov                                            | Pošiljatelj");
@@ -118,7 +122,6 @@ namespace Dmail.Presentation.Actions
             }
 
         }
-
         public static IList<Mail> FilterByFormat(ICollection<Mail> input)
         {
             Console.Clear();
@@ -159,9 +162,27 @@ namespace Dmail.Presentation.Actions
                 action.Index = ++index;
             }
         }
+        public static void SelectMailByIndexFromOutbox(IList<Mail> final, User _authenticatedUser)
+        {
+            Console.WriteLine("Unesite rb maila");
+            bool suc = int.TryParse(Console.ReadLine(), out int choice);
+            if (suc == false || choice >= final.Count() || choice < 0)
+            {
+                Console.WriteLine("Netočan unos");
+                return;
+            }
 
-        
+            Mail Mail = final[choice - 1];
 
-
+            Console.WriteLine($"Title: {Mail.Title}");
+            Console.WriteLine($"Datum i vrijeme: {Mail.TimeOfCreation}");
+            Console.WriteLine($"Poslano na adrese: ");
+            foreach (var person in Mail.Recipients)
+            {
+                Console.WriteLine(person.User.Email);
+            }
+            Console.WriteLine($"Content: {Mail.Contents}");
+            IndividualMailMenuFactory.CreateActions(Mail);
+        }
     }
 }

@@ -81,8 +81,6 @@ namespace Dmail.Domain.Repositories
             context.Mails.Add(mail);
             return SaveChanges();
         }
-
-
         public ResponseResultType UpdateMailStatus(int mailId, int userId, MailStatus status)
         {
             Mail? toChange = GetWhereReciever(userId).FirstOrDefault(m => m.Id == mailId);
@@ -96,7 +94,6 @@ namespace Dmail.Domain.Repositories
 
             return SaveChanges();
         }
-
         public ResponseResultType UpdateEventStatus(int mailId, int userId, EventStatus status)
         {
             Mail? toChange = GetWhereReciever(userId).FirstOrDefault(m => m.Id == mailId);
@@ -114,12 +111,7 @@ namespace Dmail.Domain.Repositories
             return SaveChanges();
         }
 
-        public ResponseResultType Delete(int mailId)
-        {
-            throw new NotSupportedException("Cannot delete a mail by id.");
-        }
-
-        public ResponseResultType RemoveFromInbox(int mailId, int userId)
+       public ResponseResultType RemoveFromInbox(int mailId, int userId)
         {
             Mail? toRemove = GetWhereReciever(userId).FirstOrDefault(m => m.Id == mailId);
 
@@ -139,8 +131,7 @@ namespace Dmail.Domain.Repositories
 
             if (toHide == null)
                 return ResponseResultType.ErrorNotFound;
-
-
+            toHide.IsHidden = true;
             return SaveChanges();
         }
     }

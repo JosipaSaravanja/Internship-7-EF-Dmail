@@ -29,17 +29,13 @@ namespace Dmail.Presentation.Factories
                     RepositoryFactory.Create<MailRepository>(),
                     selected,
                     LogInAction.GetCurrentlyAuthenticatedUser()!),
-                //new ReplayToMail(),
-                /*dalje izbornik:
-            2.Označi kao spam(kasnije u tekstu objašnjeno)
-            3.Izbriši mail
+                //new ReplayToMail()
+                /*
             4.Odgovori na mail(ponaša se kao i pošalji novu poštu) ili u slučaju događaja 
             opcije da se potvrdi ili odbije dolazak na događaj(prilikom čega se automatski 
             šalje pošiljatelju generična obična pošta o tome što je odabrano sa naznakom da 
             kao pošiljatelj te pošte stoji korisnik koji je prihvatio ili odbio događaj)
             */
-                new LogInAction(RepositoryFactory.Create<UserRepository>()),
-                new RegisterAction(RepositoryFactory.Create<UserRepository>()),
                 };
 
             actions.SetActionIndexes();

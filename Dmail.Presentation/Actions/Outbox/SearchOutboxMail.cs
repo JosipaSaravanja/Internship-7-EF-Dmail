@@ -1,17 +1,15 @@
-﻿using System;
+﻿using Dmail.Data.Entitets.Models;
+using Dmail.Domain.Repositories;
+using Dmail.Presentation.Factories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dmail.Data.Entitets.Models;
-using Dmail.Domain.Repositories;
-using Dmail.Presentation.Factories;
-using Dmail.Presentation.Actions;
-using Dmail.Domain.Repositories;
 
-namespace Dmail.Presentation.Actions.Inbox
+namespace Dmail.Presentation.Actions.Outbox
 {
-    public class SearchMail : IAction
+    public class SearchOutboxMail : IAction
     {
         public int Index { get; set; }
         public string Name { get; set; } = "Pretraga po imenu";
@@ -20,7 +18,7 @@ namespace Dmail.Presentation.Actions.Inbox
         private readonly UserRepository _userRepository;
         private readonly User _authenticatedUser;
 
-        public SearchMail(
+        public SearchOutboxMail(
             MailRepository mailRepository,
             UserRepository userRepository,
             User authenticatedUser)
@@ -42,18 +40,18 @@ namespace Dmail.Presentation.Actions.Inbox
                 return;
             }
 
-            ICollection<User> senders = _userRepository.GetEmailContains(query);
+            ICollection<User> recievers = _userRepository.GetEmailContains(query);
 
             List<Mail> mailsWhereSender = new List<Mail>();
 
-            foreach (var u in senders)
+            foreach (var u in recievers)
             {
-                mailsWhereSender.AddRange(_mailRepository.GetWhereSenderAndRecipient(u.Id,
-                    _authenticatedUser.Id));
+                mailsWhereSender.AddRange(_mailRepository.GetWhereSenderAndRecipient(_authenticatedUser.Id,
+                    u.Id));
             };
 
             List<Mail> recieved = mailsWhereSender
-                .Where(m => m.SenderId != _authenticatedUser.Id)
+                .Where(m => m.IsHidden == false)
                 .OrderByDescending(m => m.TimeOfCreation)
                 .ToList();
 
@@ -65,10 +63,10 @@ namespace Dmail.Presentation.Actions.Inbox
                 Console.ReadLine();
                 return;
             }
-            
+
             Console.Clear();
             Extand.WriteListOfMails(final);
-            Extand.SelectMailByIndex(final, _authenticatedUser);
+            Extand.SelectMailByIndexFromOutbox(final, _authenticatedUser);
 
             RegistredMenuFactory.CreateActions().PrintActionsAndOpen();
         }

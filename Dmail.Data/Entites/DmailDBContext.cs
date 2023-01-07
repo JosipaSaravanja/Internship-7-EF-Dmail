@@ -36,6 +36,10 @@ namespace Dmail.Data.Context
                 Property(m => m.Title).
                 IsRequired();
 
+            builder.Entity<Mail>()
+                .Property(m => m.IsHidden)
+                .IsRequired()
+                .HasDefaultValue(false);
             builder.Entity<Mail>().
                 Property(m => m.TimeOfCreation).
                 IsRequired().

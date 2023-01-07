@@ -11,7 +11,7 @@ using Dmail.Domain.Repositories;
 
 namespace Dmail.Presentation.Actions.Inbox
 {
-    public class DeleteMailAction : IAction
+    public class DeleteOutboxMailAction : IAction
     {
         public int Index { get; set; }
         public string Name { get; set; } = "Označi kao nepročitano";
@@ -20,7 +20,7 @@ namespace Dmail.Presentation.Actions.Inbox
         private readonly Mail _selected;
         private readonly User _authenticatedUser;
 
-        public DeleteMailAction(
+        public DeleteOutboxMailAction(
             MailRepository mailRepository,
             Mail selected,
             User authenticatedUser)
@@ -35,14 +35,13 @@ namespace Dmail.Presentation.Actions.Inbox
             Console.Clear();
             Console.WriteLine("Jeste li sigurni da želite izvršiti ovu radnju (DA/NE)?");
             var choice = Console.ReadLine();
-            if (choice!="DA")
+            if (choice != "DA")
             {
                 Console.WriteLine("Radnja je obustavljena");
                 return;
             }
 
-            ResponseResultType response = _mailRepository.RemoveFromInbox(_selected.Id,
-                _authenticatedUser.Id);
+            ResponseResultType response = _mailRepository.RemoveFromOutbox(_selected.Id);
 
             Console.WriteLine(response);
         }
