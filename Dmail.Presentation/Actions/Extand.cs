@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Dmail.Data.Entitets.Models;
+using Dmail.Data.Enums;
 using Dmail.Presentation.Actions;
 
 namespace Dmail.Presentation.Actions
@@ -40,11 +42,54 @@ namespace Dmail.Presentation.Actions
 
                 action.Open();
 
-                loop=action is ExitAction;
-                
-            } while (loop!=true);
+                loop = action is ExitAction;
+
+            } while (loop != true);
         }
-                
+
+        public static void SelectMailByIndex(IList<Mail> final, User _authenticatedUser)
+        {
+
+            Console.WriteLine("Unesite rb maila");
+            bool suc = int.TryParse(Console.ReadLine(), out int choice);
+            if (suc == false || choice >= final.Count())
+            {
+                Console.WriteLine("Netočan unos");
+                return;
+            }
+
+            var Mail = final[choice - 1];
+            if (Mail.Format == Format.Email)
+            {
+                Console.WriteLine($"Title: {Mail.Title}");
+                Console.WriteLine($"Datum i vrijeme: {Mail.TimeOfCreation}");
+                Console.WriteLine($"Posiljatelj: {Mail.Sender.Email}");
+                Console.WriteLine($"Content: {Mail.Contents}");
+
+            }
+            else if (Mail.Format == Format.Event)
+            {
+                Console.WriteLine($"Title: {Mail.Title}");
+                Console.WriteLine($"Datum i vrijeme: {Mail.StartOfEvent}");
+                Console.WriteLine($"Posiljatelj: {Mail.Sender.Email}");
+                Console.WriteLine($"Pozvani korisnici: ");
+                foreach (var person in Mail.Recipients)
+                {
+                    Console.WriteLine(person.User.Email);
+                }
+                Console.WriteLine($"prihvaćen/odbijen poziv n a događaj: {Mail.Recipients.FirstOrDefault(u => u.UserId == _authenticatedUser.Id).EventStatus}");
+            }
+            /*dalje izbornik:
+            1.	Označi kao nepročitano
+            2.Označi kao spam(kasnije u tekstu objašnjeno)
+            3.Izbriši mail
+            4.Odgovori na mail(ponaša se kao i pošalji novu poštu) ili u slučaju događaja 
+            opcije da se potvrdi ili odbije dolazak na događaj(prilikom čega se automatski 
+            šalje pošiljatelju generična obična pošta o tome što je odabrano sa naznakom da 
+            kao pošiljatelj te pošte stoji korisnik koji je prihvatio ili odbio događaj)
+            */
+
+        }
         private static void PrintActions(IList<IAction> actions)
         {
             foreach (var action in actions)
