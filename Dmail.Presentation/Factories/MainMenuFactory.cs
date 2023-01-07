@@ -1,5 +1,8 @@
 ﻿using System;
 using Dmail.Presentation.Actions;
+using Dmail.Presentation.Actions.Main;
+using Dmail.Domain.Repositories;
+using Dmail.Domain.Factories;
 
 namespace Dmail.Presentation.Factories
 {
@@ -10,8 +13,8 @@ namespace Dmail.Presentation.Factories
                 var actions = new List<IAction>
                 {
                 new ExitAction(),
-                //new LogInAction(),
-                //new RegisterAction(),
+                new LogInAction(RepositoryFactory.Create<UserRepository>()),
+                new RegisterAction(RepositoryFactory.Create<UserRepository>()),
                 };
 
                 actions.SetActionIndexes();

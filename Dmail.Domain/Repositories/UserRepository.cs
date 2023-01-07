@@ -5,10 +5,9 @@ using Dmail.Data.Context;
 using Dmail.Data.Entitets.Models;
 using Dmail.Domain.Enums;
 using System.Text.RegularExpressions;
-using Internship_7_EF_Dmail.Domain.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Internship_7_EF_Dmail.Domain.Repositories
+namespace Dmail.Domain.Repositories
 {
     public class UserRepository : BaseRepository
     {
