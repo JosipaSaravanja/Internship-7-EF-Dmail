@@ -10,6 +10,7 @@ using Dmail.Presentation.Actions;
 using Dmail.Domain.Repositories;
 using Dmail.Domain.Repositories;
 using Internship_7_EF_Dmail.Domain.Repositories;
+using Dmail.Presentation.Factories;
 
 namespace Dmail.Presentation.Actions
 {
@@ -62,10 +63,7 @@ namespace Dmail.Presentation.Actions
 
             Console.Clear();
 
-            Console.WriteLine("1 - Filtriraj na mailove i evente");
-            Console.WriteLine("2 - Prikaži mail");
-            bool suc= int.TryParse(Console.ReadLine(), out int choice);
-            
+           
             IList<Mail> final = Extand.FilterByFormat(noSpammedMails)
                 .OrderByDescending(m => m.TimeOfCreation)
                 .ToList();
@@ -79,6 +77,39 @@ namespace Dmail.Presentation.Actions
 
             Extand.WriteListOfMails(final);
             
+            Console.WriteLine("Unesite rb maila");
+            bool suc = int.TryParse(Console.ReadLine(), out int choice);
+            if (suc == false || choice>=final.Count())
+            {
+                Console.WriteLine("Netočan unos");
+                return;
+            }
+
+            var Mail = final[choice - 1]; 
+            if (Mail.Format == Format.Email)
+            {
+                Console.WriteLine($"Title: {Mail.Title}");
+                Console.WriteLine($"Datum i vrijeme: {Mail.TimeOfCreation}");
+                Console.WriteLine($"Posiljatelj: {Mail.Sender.Email}");
+                Console.WriteLine($"Content: {Mail.Contents}");
+
+            }
+            else if (Mail.Format == Format.Event)
+            {
+                Console.WriteLine($"Title: {Mail.Title}");
+                Console.WriteLine($"Datum i vrijeme: {Mail.StartOfEvent}");
+                Console.WriteLine($"Posiljatelj: {Mail.Sender.Email}");
+                Console.WriteLine($"Pozvani korisnici: ");
+                foreach (var person in Mail.Recipients)
+                {
+                    Console.WriteLine(person.User.Email);
+                }
+                Console.WriteLine($"prihvaćen/odbijen poziv n a događaj: {Mail.Recipients.FirstOrDefault(u=>u.UserId== _authenticatedUser.Id).EventStatus}");
+            }
+
+            RegistredMenuFactory
+                .CreateActions()
+                .PrintActionsAndOpen();
         }
     }
 }

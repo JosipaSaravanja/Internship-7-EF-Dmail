@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dmail.Presentation.Actions.Inbox
 {
-    internal class SearchMail
+    internal class SearchMail : IAction
     {
     }
 }

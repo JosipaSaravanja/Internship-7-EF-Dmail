@@ -16,16 +16,8 @@ namespace Dmail.Presentation.Factories
                 var actions = new List<IAction>
                 {
                 new ExitAction(),
-                new ListMailsAction(
-                    RepositoryFactory.Create<MailRepository>(),
-                    RepositoryFactory.Create<SpammersRepository>(),
-                    MailStatus.Read,
-                    LogInAction.GetCurrentlyAuthenticatedUser()!),
-                new ListMailsAction(
-                    RepositoryFactory.Create<MailRepository>(),
-                    RepositoryFactory.Create<SpammersRepository>(),
-                    MailStatus.Unread,
-                    LogInAction.GetCurrentlyAuthenticatedUser()!),
+                new OpenInboxAction(),
+                //outbox
                 //spam
                 //pošalji movi mail
                 //pošalji movi event
