@@ -13,18 +13,18 @@ using Dmail.Domain.Repositories;
 using Dmail.Domain.Repositories;
 using Dmail.Presentation.Factories;
 
-namespace Dmail.Presentation.Actions
+namespace Dmail.Presentation.Actions.Spam
 {
-    public class OpenInboxAction : IAction
+    public class OpenSpamAction : IAction
     {
 
         public int Index { get; set; }
-        public string Name { get; set; } = "Inbox";
+        public string Name { get; set; } = "Spam";
 
 
         public void Open()
         {
-            InboxMenuFactory
+            SpamMenuFactory
                 .CreateActions()
                 .PrintActionsAndOpen();
         }

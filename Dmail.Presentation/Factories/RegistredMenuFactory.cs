@@ -5,7 +5,7 @@ using Dmail.Presentation.Actions;
 using Dmail.Domain.Repositories;
 using Dmail.Domain.Factories;
 using Dmail.Data.Enums;
-using Internship_7_EF_Dmail.Domain.Repositories;
+using Dmail.Domain.Repositories;
 
 namespace Dmail.Presentation.Factories
 {
@@ -13,7 +13,7 @@ namespace Dmail.Presentation.Factories
     {
             public static IList<IAction> CreateActions()
             {
-                var actions = new List<IAction>
+            var actions = new List<IAction>
                 {
                 new ExitAction(),
                 new OpenInboxAction(),
@@ -22,7 +22,7 @@ namespace Dmail.Presentation.Factories
                 //pošalji movi mail
                 //pošalji movi event
                 //postavke profila
-                //odjava iz profila
+                new LogOutAction(LogInAction.Logout),
                 };
 
                 actions.SetActionIndexes();

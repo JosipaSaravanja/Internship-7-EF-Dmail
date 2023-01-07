@@ -29,6 +29,7 @@ namespace Dmail.Presentation.Factories
                     RepositoryFactory.Create<MailRepository>(),
                     selected,
                     LogInAction.GetCurrentlyAuthenticatedUser()!),
+                //new ReplayToMail(),
                 /*dalje izbornik:
             2.Označi kao spam(kasnije u tekstu objašnjeno)
             3.Izbriši mail

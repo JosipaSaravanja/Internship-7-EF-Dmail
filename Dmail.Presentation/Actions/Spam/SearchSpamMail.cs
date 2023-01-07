@@ -11,28 +11,46 @@ using Dmail.Domain.Repositories;
 
 namespace Dmail.Presentation.Actions.Inbox
 {
-    public class SearchMail : IAction
+    public class SearchSpamMail : IAction
     {
 
         public int Index { get; set; }
-        public string Name { get; set; } = "Pretraga po imenu";
+        public string Name { get; set; } = "Pretraga spama po imenu";
 
         private readonly MailRepository _mailRepository;
+        private readonly SpammersRepository _spammersRepository;
         private readonly UserRepository _userRepository;
         private readonly User _authenticatedUser;
 
-        public SearchMail(
+        public SearchSpamMail(
             MailRepository mailRepository,
+            SpammersRepository spammerRepository,
             UserRepository userRepository,
             User authenticatedUser)
         {
             _mailRepository = mailRepository;
+            _spammersRepository = spammerRepository;
             _userRepository = userRepository;
             _authenticatedUser = authenticatedUser;
         }
 
         public void Open()
         {
+            /*IList<Mail> allMails = _mailRepository
+                .GetWhereRecieverAndStatus(
+                _authenticatedUser.Id,
+                _mailStatus)
+                .ToList();
+
+            IList<Spammers> spammers = _spammersRepository
+                .GetSpamFlagsForUser(_authenticatedUser.Id)
+                .ToList();
+
+            IList<Mail> noSpammedMails = allMails
+                .Where(m => !spammers
+                .Select(sf => sf.SpammerId)
+                .Contains(m.SenderId))
+                .ToList();*/
             Console.WriteLine("Unesite ime/dio imena");
             string query = Console.ReadLine();
 
@@ -42,6 +60,10 @@ namespace Dmail.Presentation.Actions.Inbox
                 Console.ReadLine();
                 return;
             }
+
+            IList<Spammers>? spammers = _spammersRepository
+                .GetSpamFlagsForUser(_authenticatedUser.Id)
+                .ToList();
 
             ICollection<User> senders = _userRepository.GetEmailContains(query);
 
@@ -54,11 +76,17 @@ namespace Dmail.Presentation.Actions.Inbox
             };
 
             List<Mail> recieved = mailsWhereSender
+                .Where(m => !spammers
+                .Select(sf => sf.SpammerId)
+                .Contains(m.SenderId))
+                .ToList();
+
+            IList<Mail> lis = recieved
                 .Where(m => m.SenderId != _authenticatedUser.Id)
                 .OrderByDescending(m => m.TimeOfCreation)
                 .ToList();
 
-            IList<Mail> final = Extand.FilterByFormat(recieved);
+            IList<Mail> final = Extand.FilterByFormat(lis);
 
             if (!final.Any())
             {
@@ -66,7 +94,7 @@ namespace Dmail.Presentation.Actions.Inbox
                 Console.ReadLine();
                 return;
             }
-            
+
             Console.Clear();
             Extand.WriteListOfMails(final);
             Extand.SelectMailByIndex(final, _authenticatedUser);
